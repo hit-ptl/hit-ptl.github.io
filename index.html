@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My First Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one calm column. Hero with a roadmap panel beside it, then About, Projects, Contact.
+   Every color and font below comes from these tokens, so you can restyle the site by editing this block. */
+:root {
+  --bg: #F2F5F9;
+  --surface: #FFFFFF;
+  --fg: #14202E;
+  --muted: #556375;
+  --line: #D6DDE7;
+  --accent: #2346D8;
+  --accent-fg: #FFFFFF;
+  --mark: #F0B429;
+  --good: #1E8A5A;
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1522; --surface: #161F30; --fg: #E7ECF4; --muted: #9AA7BB; --line: #26324A;
+    --accent: #7F9BFF; --accent-fg: #0E1522; --mark: #F5C451; --good: #4CC38A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1522; --surface: #161F30; --fg: #E7ECF4; --muted: #9AA7BB; --line: #26324A;
+  --accent: #7F9BFF; --accent-fg: #0E1522; --mark: #F5C451; --good: #4CC38A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 40px;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 1040px; margin-inline: auto; }
+
+/* Notice bar */
+.notice {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
+  margin-top: 16px; padding: 10px 14px;
+  border: 1px dashed var(--mark); border-radius: 8px;
+  font-size: 14px; color: var(--muted);
+}
+.notice button { font: inherit; font-size: 13px; }
+.notice[hidden] { display: none; }
+
+/* Header */
+header.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 20px; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: -0.01em; }
+nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
+nav a { text-decoration: none; color: var(--muted); font-size: 15px; font-weight: 500; padding: 4px 0; }
+nav a:hover { color: var(--fg); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 600 15px var(--font-body); text-decoration: none; cursor: pointer;
+  padding: 10px 18px; border-radius: 8px; border: 1.5px solid var(--fg);
+  background: transparent; color: var(--fg);
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.btn:hover { transform: translateY(-1px); }
+.icon-btn { font: 500 13px var(--font-mono); padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; padding-block: 48px 64px; }
+.hero > * { min-width: 0; }
+.eyebrow { font: 500 13px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.04; letter-spacing: -0.03em; margin: 0 0 20px; text-wrap: balance; }
+h1 .hl { background: linear-gradient(transparent 62%, var(--mark) 62%, var(--mark) 92%, transparent 92%); }
+.lede { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 0 0 28px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.roadmap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.roadmap h2 { font: 500 13px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+.roadmap ul { list-style: none; margin: 0; padding: 0; }
+.roadmap li { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+.roadmap li:first-child { border-top: 0; }
+.roadmap .name { font-weight: 600; }
+.roadmap .note { grid-column: 1 / -1; font-size: 14px; color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--font-mono); padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; align-self: start; }
+.pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.pill.done::before { background: var(--good); }
+.pill.doing::before { background: var(--mark); }
+
+/* Sections */
+section { padding-block: 56px; border-top: 1px solid var(--line); scroll-margin-top: 8px; }
+h2.title { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.7rem, 3.5vw, 2.3rem); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 24px; text-wrap: balance; }
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 48px; }
+.about > * { min-width: 0; }
+.about p { margin: 0 0 16px; max-width: 62ch; }
+.facts { margin: 0; display: grid; gap: 0; align-content: start; }
+.facts div { display: grid; grid-template-columns: 8.5em 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+.facts div:last-child { border-bottom: 1px solid var(--line); }
+.facts dt { font: 500 13px var(--font-mono); color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; padding-top: 2px; }
+.facts dd { margin: 0; font-weight: 500; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.card { display: flex; flex-direction: column; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; min-width: 0; }
+.card h3 { font-family: var(--font-display); font-size: 22px; letter-spacing: -0.01em; margin: 0; }
+.card p { margin: 0; color: var(--muted); flex: 1; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: 500 12px var(--font-mono); padding: 2px 8px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); }
+.card a.more { font-weight: 600; font-size: 15px; color: var(--accent); }
+
+/* Contact */
+.contact { display: grid; gap: 20px; }
+.contact p { margin: 0; max-width: 56ch; color: var(--muted); }
+.mailrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.mail { font: 500 17px var(--font-mono); padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); user-select: all; overflow-wrap: anywhere; }
+.links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-weight: 600; }
+footer { border-top: 1px solid var(--line); padding-top: 24px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 820px) {
+  .hero, .about { grid-template-columns: 1fr; }
+  .hero { padding-block: 32px 48px; gap: 32px; }
+  section { padding-block: 44px; }
+}
+@media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- NOTICE: delete this block when you have replaced the example details -->
+  <div class="notice" id="notice">
+    <span>Starter template. The GitHub and LinkedIn links are examples. Replace them with your own.</span>
+    <button class="icon-btn" id="hideNotice" type="button">Hide</button>
+  </div>
+
+  <header class="top">
+    <!-- EDIT: put your name or initials here -->
+    <a class="brand" href="#top">HIT</a>
+    <nav aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme">Theme</button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">B.Tech CSE · Year 1 · GSFC University, Vadodara</p>
+        <!-- EDIT: your name in the headline -->
+        <h1>Hi, I'm HIT. I'm learning to <span class="hl">build for the web.</span></h1>
+        <p class="lede">I'm a first-year Computer Science student. I'm teaching myself HTML, CSS and JavaScript next to my college subjects, and this site is my first build.</p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">See my projects</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+
+      <aside class="roadmap" aria-labelledby="rm-title">
+        <h2 id="rm-title">My roadmap</h2>
+        <!-- EDIT: change the status to "done", "doing" or "next" as you progress -->
+        <ul>
+          <li><span class="name">HTML</span><span class="pill doing">Learning</span><span class="note">Page structure, links, images, forms</span></li>
+          <li><span class="name">CSS</span><span class="pill doing">Learning</span><span class="note">Flexbox, Grid, responsive layouts</span></li>
+          <li><span class="name">JavaScript</span><span class="pill">Next</span><span class="note">Events, the DOM, small interactive apps</span></li>
+          <li><span class="name">Git and GitHub</span><span class="pill">Next</span><span class="note">Save my code and publish this site</span></li>
+          <li><span class="name">C programming</span><span class="pill doing">College course</span><span class="note">Loops, functions, arrays</span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <section id="about">
+      <h2 class="title">About me</h2>
+      <div class="about">
+        <div>
+          <p>I study Computer Science and Engineering at GSFC University in Vadodara. I started web development with no experience, and I'm learning by building small things and fixing what breaks.</p>
+          <p>My goal for this year is to get comfortable with the basics of the web, publish a few projects on GitHub, and be able to build a working site from an idea.</p>
+        </div>
+        <!-- EDIT: update these facts -->
+        <dl class="facts">
+          <div><dt>Studying</dt><dd>B.Tech, Computer Science and Engineering</dd></div>
+          <div><dt>University</dt><dd>GSFC University, Vadodara</dd></div>
+          <div><dt>Year</dt><dd>First year</dd></div>
+          <div><dt>Learning</dt><dd>HTML, CSS, JavaScript, Git</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="title">Projects</h2>
+      <div class="cards">
+        <!-- EDIT: copy one <article> block to add a project -->
+        <article class="card">
+          <span class="pill done">Done</span>
+          <h3>This website</h3>
+          <p>My first site, written by hand in plain HTML, CSS and JavaScript, with a light and dark theme. Hosted for free.</p>
+          <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></div>
+        </article>
+        <article class="card">
+          <span class="pill doing">In progress</span>
+          <h3>Marks calculator</h3>
+          <p>A small C program that takes the marks for each subject and prints the total, percentage and grade.</p>
+          <div class="chips"><span class="chip">C</span></div>
+        </article>
+        <article class="card">
+          <span class="pill">Planned</span>
+          <h3>To-do list app</h3>
+          <p>A browser app to add, finish and delete tasks, with the list saved in the browser so it is still there tomorrow.</p>
+          <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="title">Get in touch</h2>
+      <div class="contact">
+        <p>Working on a project, a study group or a college event? I'd like to hear about it.</p>
+        <div class="mailrow">
+          <!-- EDIT: your real email -->
+          <span class="mail" id="mail">hitpatel.in@gmail.com</span>
+          <button class="icon-btn" id="copyBtn" type="button">Copy</button>
+          <span id="copyMsg" role="status" aria-live="polite" style="color:var(--muted);font-size:14px"></span>
+        </div>
+        <!-- EDIT: your GitHub and LinkedIn addresses -->
+        <div class="links">
+          <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Built with plain HTML, CSS and JavaScript. No frameworks, no cost.</footer>
+</div>
+
+<script>
+  var root = document.documentElement;
+
+  // Light and dark theme toggle
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var isDark = root.getAttribute('data-theme')
+      ? root.getAttribute('data-theme') === 'dark'
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  // Hide the starter notice
+  document.getElementById('hideNotice').addEventListener('click', function () {
+    document.getElementById('notice').hidden = true;
+  });
+
+  // Copy the email address
+  var mail = document.getElementById('mail');
+  var msg = document.getElementById('copyMsg');
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    function fallback() {
+      var range = document.createRange();
+      range.selectNodeContents(mail);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      msg.textContent = 'Selected. Press Ctrl+C to copy.';
+    }
+    try {
+      navigator.clipboard.writeText(mail.textContent).then(function () {
+        msg.textContent = 'Copied';
+        setTimeout(function () { msg.textContent = ''; }, 2000);
+      }, fallback);
+    } catch (e) { fallback(); }
+  });
+</script>
+</body>
+</html>
